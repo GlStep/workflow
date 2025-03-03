@@ -1,7 +1,36 @@
 Frontend:
   UI/UX:
-  
+    ☐ Choice of tools, libraries, and frameworks for the project
+    ☐ Design of the user interface using Figma and choosen tools
+    ☐ Design of the user experience using Figma and choosen tools
+    
+  Components:
+    Header:
+    Footer:
+    Sidebar:
+      
+  Pages:
+    Landing page/Home page:
+    Login page:
+    Register page:
+    Dashboard page:
+    Profile page:
+    Admin panel:
+    Settings page:
+    404 page:
+    500 page:
+
+
 Backend:
   Database:
+    ☐ Choice of database for the project
+
+    Schema:
+      User:
+
   Server:
+    Authentication:
+    Data Fetching:
+    CRUD Operations:
+  
   API:
