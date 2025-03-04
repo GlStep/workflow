@@ -6,6 +6,7 @@ Frontend:
     
   Components:
     Header:
+      ☐ Create preliminary design for the header @high @design
     Footer:
     Sidebar:
       
@@ -27,10 +28,14 @@ Backend:
 
     Schema:
       User:
+      Message:
 
   Server:
     Authentication:
     Data Fetching:
     CRUD Operations:
   
+  Encryption:
+    ☐ Choice of encryption algorithm for the project
+
   API:
