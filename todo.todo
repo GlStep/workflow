@@ -6,6 +6,7 @@ Frontend:
     
   Components:
     Header:
+      ✔ Create simple header component @low @done(25-03-05 23:00)
       ☐ Create preliminary design for the header @high @design
     Footer:
     Sidebar:
