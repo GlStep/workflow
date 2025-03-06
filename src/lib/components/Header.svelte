@@ -1,6 +1,7 @@
 <script lang="ts">
+	import Logo from './Logo.svelte';
 </script>
 
-<div class="flex-col items-center justify-center">
-	<h1>Header</h1>
+<div class="inline-flex items-center justify-center">
+	<Logo />
 </div>
