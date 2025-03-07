@@ -48,6 +48,7 @@
 		]
 	},
 	"dependencies": {
-		"@fontsource/poppins": "^5.2.5"
+		"@fontsource/poppins": "^5.2.5",
+		"@fontsource/roboto-flex": "^5.2.5"
 	}
 }
