@@ -55,8 +55,9 @@
 	"dependencies": {
 		"@fontsource/poppins": "^5.2.5",
 		"@fontsource/roboto-flex": "^5.2.5",
+		"@oslojs/crypto": "^1.0.1",
+		"@oslojs/encoding": "^1.1.0",
 		"drizzle-orm": "^0.40.0",
-		"pg": "^8.14.1",
-		"postgres": "^3.4.5"
+		"pg": "^8.14.1"
 	}
 }
