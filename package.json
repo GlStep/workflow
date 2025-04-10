@@ -57,6 +57,7 @@
 		"@fontsource/roboto-flex": "^5.2.5",
 		"@oslojs/crypto": "^1.0.1",
 		"@oslojs/encoding": "^1.1.0",
+		"arctic": "^3.6.0",
 		"drizzle-orm": "^0.40.0",
 		"pg": "^8.14.1"
 	}
