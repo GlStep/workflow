@@ -3,7 +3,9 @@ import { pgTable, serial, text, integer, timestamp } from 'drizzle-orm/pg-core';
 import type { InferSelectModel } from 'drizzle-orm';
 
 export const userTable = pgTable('user', {
-	id: serial('id').primaryKey()
+	id: serial('id').primaryKey(),
+	githubId: integer('github_id'),
+	username: text('username')
 });
 
 export const sessionTable = pgTable('session', {
