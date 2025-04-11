@@ -1,12 +1,9 @@
-import { userTable } from '$lib/server/db/schema';
 import { generateSessionToken, createSession, setSessionTokenCookie } from '$lib/server/db/session';
 import { github } from '$lib/server/oauth';
 
-import { db } from '$lib/server/db';
-import { eq } from 'drizzle-orm';
-
 import type { RequestEvent } from '@sveltejs/kit';
 import type { OAuth2Tokens } from 'arctic';
+import { createUser, getUserFromGitHubId } from '$lib/server/db/user';
 
 export async function GET(event: RequestEvent): Promise<Response> {
 	const code = event.url.searchParams.get('code');
@@ -40,10 +37,7 @@ export async function GET(event: RequestEvent): Promise<Response> {
 	const githubUserId = githubUser.id;
 	const githubUsername = githubUser.login;
 
-	const [existingUser] = await db
-		.select()
-		.from(userTable)
-		.where(eq(userTable.githubId, githubUserId));
+	const existingUser = await getUserFromGitHubId(githubUserId);
 
 	if (existingUser) {
 		const sessionToken = generateSessionToken();
@@ -57,10 +51,7 @@ export async function GET(event: RequestEvent): Promise<Response> {
 		});
 	}
 
-	const [user] = await db
-		.insert(userTable)
-		.values({ githubId: githubUserId, username: githubUsername })
-		.returning();
+	const user = await createUser(githubUserId, githubUsername);
 
 	const sessionToken = generateSessionToken();
 	const session = await createSession(sessionToken, user.id);

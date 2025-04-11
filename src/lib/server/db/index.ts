@@ -5,5 +5,10 @@ import { env } from '$env/dynamic/private';
 
 if (!env.DATABASE_URL) throw new Error('DATABASE_URL is not set');
 
-const pool = new pg.Pool();
-export const db = drizzle(pool);
+const pool = new pg.Pool({
+	connectionString: env.DATABASE_URL
+});
+export const db = drizzle({ client: pool });
+
+// const pool = new pg.Pool();
+// export const db = drizzle(pool);
