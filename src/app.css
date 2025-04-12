@@ -1,8 +1,0 @@
-@import 'tailwindcss';
-@import '@fontsource/poppins';
-@import '@fontsource/roboto-flex';
-
-@theme {
-	--font-poppins: 'Poppins', sans-serif;
-	--font-robotoflex: 'Roboto Flex', sans-serif;
-}
