@@ -5,10 +5,10 @@
 <template>
   <div class="inline-flex items-center justify-center gap-7">
     <ButtonSignInUp
-      :attribute="{ text: 'Sign In', link: '/login' }" variant="light"
+      :attribute="{ text: 'Sign In', link: '/auth/sign-in' }" variant="light"
     />
     <ButtonSignInUp
-      :attribute="{ text: 'Sign Up', link: '/login' }" variant="dark"
+      :attribute="{ text: 'Sign Up', link: '/auth/sign-up' }" variant="dark"
     />
   </div>
 </template>
