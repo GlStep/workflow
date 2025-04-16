@@ -1,7 +1,7 @@
 import { betterAuth } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
 
-import { db } from '~/server/db/db'
+import { db } from '~/server/utils/db'
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -12,8 +12,8 @@ export const auth = betterAuth({
   },
   socialProviders: {
     github: {
-      clientId: useRuntimeConfig().GITHUB_CLIENT_ID as string,
-      clientSecret: useRuntimeConfig().GITHUB_CLIENT_SECRET as string,
+      clientId: useRuntimeConfig().githubClientId as string,
+      clientSecret: useRuntimeConfig().githubClientSecret as string,
     },
   },
 })
