@@ -1,0 +1,8 @@
+@import 'tailwindcss';
+
+@source '../../formkit.theme.ts';
+
+@theme {
+  --font-poppins: 'Poppins', sans-serif;
+  --font-roboto: 'Roboto', sans-serif;
+}

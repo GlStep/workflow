@@ -5,15 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1744232097872,
-      "tag": "0000_shallow_surge",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1744313735251,
-      "tag": "0001_stormy_kylun",
+      "when": 1744748777860,
+      "tag": "0000_first_northstar",
       "breakpoints": true
     }
   ]
