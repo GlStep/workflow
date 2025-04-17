@@ -1,5 +1,7 @@
 <script lang="ts" setup>
-import { authClient } from '#imports'
+import { authClient, useForm } from '#imports'
+
+import { z } from 'zod'
 
 interface Props {
   redirectUrl?: string
@@ -9,30 +11,39 @@ const props = withDefaults(defineProps<Props>(), {
   redirectUrl: '/app',
 })
 
-const loginForm = ref({
+const signinForm = ref({
   email: '',
   password: '',
 })
 
-const loginFormSchema = computed(() => [
-  {
-    $formkit: 'text',
-    name: 'email',
-    label: 'Email',
-    validation: 'required|email',
-  },
-  {
-    $formkit: 'password',
-    name: 'password',
-    label: 'Password',
-    validation: 'required|length:5,16',
-  },
-])
+const signinFormSchema = toTypedSchema(z.object({
+  email: z.string().email(),
+  password: z.string().min(8),
+}))
 
-async function handleUserLogin() {
+const { errors, handleSubmit, defineField } = useForm({
+  validationSchema: signinFormSchema,
+})
+
+const [email, emailAttrs] = defineField('email')
+const [password, passwordAttrs] = defineField('password')
+
+const onSubmit = handleSubmit(async (values) => {
+  signinForm.value = values
+
+  // TODO: Handle the case when user is logged in and when there is an error in login
+  try {
+    await handleUserSignin()
+  }
+  catch (error) {
+    console.error('Signin failed:', error)
+  }
+})
+
+async function handleUserSignin() {
   await authClient.signIn.email({
-    email: loginForm.value.email,
-    password: loginForm.value.password,
+    email: signinForm.value.email,
+    password: signinForm.value.password,
     callbackURL: props.redirectUrl,
     fetchOptions: {
       onError(context) {
@@ -46,15 +57,17 @@ async function handleUserLogin() {
 <template>
   <div>
     Login
-    <FormKit
-      id="login-form" v-slot="{ state: { valid } }"
-      v-model="loginForm" type="form" :actions="false" @submit="handleUserLogin"
-    >
-      <FormKitSchema :schema="loginFormSchema" />
-      <button class="w-full" type="submit" :disabled="!valid">
-        Sign in
+    <form @submit="onSubmit">
+      <input v-model="email" type="email" v-bind="emailAttrs" class="outline">
+      <div>{{ errors.email }}</div>
+
+      <input v-model="password" type="password" v-bind="passwordAttrs" class="outline">
+      <div>{{ errors.password }}</div>
+
+      <button type="submit">
+        Submit
       </button>
-    </FormKit>
+    </form>
   </div>
 </template>
 
