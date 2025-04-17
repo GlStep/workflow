@@ -17,7 +17,7 @@ export default defineNuxtConfig({
     '@nuxt/icon',
     '@nuxt/test-utils',
     '@nuxt/scripts',
-    '@formkit/nuxt',
+    '@vee-validate/nuxt',
   ],
   vite: {
     plugins: [tailwindcss()],
@@ -26,8 +26,8 @@ export default defineNuxtConfig({
     strict: true,
     typeCheck: true,
   },
-  formkit: {
-    autoImport: true,
+  veeValidate: {
+    autoImports: true,
   },
   runtimeConfig: {
     databaseUrl: '',
