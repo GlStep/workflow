@@ -52,6 +52,18 @@ async function handleUserSignin() {
     },
   })
 }
+
+async function signIn() {
+  await authClient.signIn.social({
+    provider: 'github',
+    callbackURL: props.redirectUrl,
+    fetchOptions: {
+      onError(context) {
+        console.error('Error during GitHub login:', context.error)
+      },
+    },
+  })
+}
 </script>
 
 <template>
@@ -68,6 +80,9 @@ async function handleUserSignin() {
         Submit
       </button>
     </form>
+    <button @click="signIn">
+      Use GitHub
+    </button>
   </div>
 </template>
 
