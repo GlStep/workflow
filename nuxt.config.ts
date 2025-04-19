@@ -10,7 +10,7 @@ export default defineNuxtConfig({
       enabled: true,
     },
   },
-  css: ['~/assets/css/main.css'],
+  css: ['~/assets/css/tailwind.css'],
   modules: [
     '@nuxt/eslint',
     '@nuxt/fonts',
@@ -18,6 +18,7 @@ export default defineNuxtConfig({
     '@nuxt/test-utils',
     '@nuxt/scripts',
     '@vee-validate/nuxt',
+    'shadcn-nuxt',
   ],
   vite: {
     plugins: [tailwindcss()],
@@ -28,6 +29,18 @@ export default defineNuxtConfig({
   },
   veeValidate: {
     autoImports: true,
+  },
+  shadcn: {
+    /**
+     * Prefix for all the imported component
+     */
+    prefix: '',
+    /**
+     * Directory that the component lives in.
+     * @default "./components/ui"
+     */
+    componentDir: './components/ui',
+
   },
   runtimeConfig: {
     databaseUrl: '',
