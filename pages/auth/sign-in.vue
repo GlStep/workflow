@@ -68,21 +68,22 @@ async function signIn() {
 
 <template>
   <div>
-    Login
-    <form @submit="onSubmit">
-      <input v-model="email" type="email" v-bind="emailAttrs" class="outline">
-      <div>{{ errors.email }}</div>
+    <Card>
+      <form @submit="onSubmit">
+        <input v-model="email" type="email" v-bind="emailAttrs" class="outline">
+        <div>{{ errors.email }}</div>
 
-      <input v-model="password" type="password" v-bind="passwordAttrs" class="outline">
-      <div>{{ errors.password }}</div>
+        <input v-model="password" type="password" v-bind="passwordAttrs" class="outline">
+        <div>{{ errors.password }}</div>
 
-      <button type="submit">
-        Submit
+        <button type="submit">
+          Submit
+        </button>
+      </form>
+      <button @click="signIn">
+        Use GitHub
       </button>
-    </form>
-    <button @click="signIn">
-      Use GitHub
-    </button>
+    </Card>
   </div>
 </template>
 
