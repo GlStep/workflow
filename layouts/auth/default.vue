@@ -3,8 +3,9 @@
 </script>
 
 <template>
-  <h1>Testing</h1>
-  <span />
+  <Card>
+    <slot />
+  </Card>
 </template>
 
 <style scoped>

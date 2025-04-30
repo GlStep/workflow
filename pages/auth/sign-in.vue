@@ -11,6 +11,10 @@ const props = withDefaults(defineProps<Props>(), {
   redirectUrl: '/app',
 })
 
+definePageMeta({
+  layout: 'auth-default',
+})
+
 const signinForm = ref({
   email: '',
   password: '',
@@ -68,22 +72,20 @@ async function signIn() {
 
 <template>
   <div>
-    <Card>
-      <form @submit="onSubmit">
-        <input v-model="email" type="email" v-bind="emailAttrs" class="outline">
-        <div>{{ errors.email }}</div>
+    <form @submit="onSubmit">
+      <Input v-model="email" type="email" v-bind="emailAttrs" class="outline" />
+      <div>{{ errors.email }}</div>
 
-        <input v-model="password" type="password" v-bind="passwordAttrs" class="outline">
-        <div>{{ errors.password }}</div>
+      <Input v-model="password" type="password" v-bind="passwordAttrs" class="outline" />
+      <div>{{ errors.password }}</div>
 
-        <button type="submit">
-          Submit
-        </button>
-      </form>
-      <button @click="signIn">
-        Use GitHub
-      </button>
-    </Card>
+      <Button type="submit" class="hover:cursor-pointer">
+        Submit
+      </Button>
+    </form>
+    <Button class="hover:cursor-pointer" @click="signIn">
+      Use GitHub
+    </Button>
   </div>
 </template>
 
