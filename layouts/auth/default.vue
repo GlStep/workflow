@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <Card>
+  <Card class="w-95">
     <slot />
   </Card>
 </template>
