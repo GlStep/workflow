@@ -9,6 +9,10 @@ const props = withDefaults(defineProps<Props>(), {
   redirectUrl: '/app',
 })
 
+definePageMeta({
+  layout: 'auth-default',
+})
+
 const userInformation = ref({
   firstName: '',
   lastName: '',
@@ -25,15 +29,9 @@ const signinFormSchema = toTypedSchema(z.object({
   passwordConfirm: z.string().min(8),
 }))
 
-const { errors, handleSubmit, defineField } = useForm({
+const { handleSubmit } = useForm({
   validationSchema: signinFormSchema,
 })
-
-const [firstName, firstNameAttrs] = defineField('firstName')
-const [lastName, lastNameAttrs] = defineField('lastName')
-const [email, emailAttrs] = defineField('email')
-const [password, passwordAttrs] = defineField('password')
-const [passwordConfirm, passwordConfirmAttrs] = defineField('passwordConfirm')
 
 const onSubmit = handleSubmit(async (values) => {
   userInformation.value = values
@@ -59,27 +57,61 @@ async function HandleRegisterUser() {
 
 <template>
   <div>
-    <p>Sign Up</p>
-    <form @submit="onSubmit">
-      <input v-model="firstName" type="text" v-bind="firstNameAttrs" class="outline">
-      <div>{{ errors.firstName }}</div>
-
-      <input v-model="lastName" type="text" v-bind="lastNameAttrs" class="outline">
-      <div>{{ errors.lastName }}</div>
-
-      <input v-model="email" type="email" v-bind="emailAttrs" class="outline">
-      <div>{{ errors.email }}</div>
-
-      <input v-model="password" type="password" v-bind="passwordAttrs" class="outline">
-      <div>{{ errors.password }}</div>
-
-      <input v-model="passwordConfirm" type="password" v-bind="passwordConfirmAttrs" class="outline">
-      <div>{{ errors.passwordConfirm }}</div>
-
-      <button type="submit">
-        Submit
-      </button>
-    </form>
+    <CardHeader>
+      <CardTitle>
+        Sign Up
+      </CardTitle>
+      <CardDescription>
+        Sign up using your E-Mail and a password
+      </CardDescription>
+    </CardHeader>
+    <CardContent>
+      <form @submit="onSubmit">
+        <FormField v-slot="{ componentField }" name="firstName">
+          <FormItem>
+            <FormLabel>First name</FormLabel>
+            <FormControl>
+              <Input type="text" placeholder="First Name" v-bind="componentField" />
+            </FormControl>
+          </FormItem>
+        </FormField>
+        <FormField v-slot="{ componentField }" name="lastName">
+          <FormItem>
+            <FormLabel>Last name</FormLabel>
+            <FormControl>
+              <Input type="text" placeholder="Last Name" v-bind="componentField" />
+            </FormControl>
+          </FormItem>
+        </FormField>
+        <FormField v-slot="{ componentField }" name="email">
+          <FormItem>
+            <FormLabel>E-Mail</FormLabel>
+            <FormControl>
+              <Input type="email" placeholder="your-email@example.com" v-bind="componentField" />
+            </FormControl>
+          </FormItem>
+        </FormField>
+        <FormField v-slot="{ componentField }" name="password">
+          <FormItem>
+            <FormLabel>Password</FormLabel>
+            <FormControl>
+              <Input type="password" placeholder="password" v-bind="componentField" />
+            </FormControl>
+          </FormItem>
+        </FormField>
+        <FormField v-slot="{ componentField }" name="passwordConfirm">
+          <FormItem>
+            <FormLabel>Confirm password</FormLabel>
+            <FormControl>
+              <Input type="password" placeholder="repeat your password" v-bind="componentField" />
+            </FormControl>
+          </FormItem>
+        </FormField>
+        <Button type="submit">
+          Submit
+        </Button>
+      </form>
+    </CardContent>
   </div>
 </template>
 

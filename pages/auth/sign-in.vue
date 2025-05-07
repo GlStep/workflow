@@ -22,7 +22,7 @@ const signinForm = ref({
 
 const signinFormSchema = toTypedSchema(z.object({
   email: z.string().email(),
-  // password: z.string().min(8),
+  password: z.string().min(8),
 }))
 
 const { handleSubmit } = useForm({
@@ -30,15 +30,15 @@ const { handleSubmit } = useForm({
 })
 
 const onSubmit = handleSubmit(async (values) => {
-  // signinForm.value = values
-  console.log(values)
+  signinForm.value = values
+
   // TODO: Handle the case when user is logged in and when there is an error in login
-  // try {
-  //   await handleUserSignin()
-  // }
-  // catch (error) {
-  //   console.error('Signin failed:', error)
-  // }
+  try {
+    await handleUserSignin()
+  }
+  catch (error) {
+    console.error('Signin failed:', error)
+  }
 })
 
 async function handleUserSignin() {
@@ -73,7 +73,7 @@ async function signIn() {
       <CardTitle class="font-poppins">
         Sign In
       </CardTitle>
-      <CardDescription>Sign in into this application</CardDescription>
+      <CardDescription>Sign in using your E-Mail and password</CardDescription>
     </CardHeader>
     <CardContent>
       <form @submit="onSubmit">
@@ -84,6 +84,14 @@ async function signIn() {
               <Input type="email" placeholder="example@example.com" v-bind="componentField" />
             </FormControl>
             <FormMessage />
+          </FormItem>
+        </FormField>
+        <FormField v-slot="{ componentField }" name="password">
+          <FormItem>
+            <FormLabel>Password</FormLabel>
+            <FormControl>
+              <Input type="password" placeholder="password" v-bind="componentField" />
+            </FormControl>
           </FormItem>
         </FormField>
         <Button type="submit" class="hover:cursor-pointer">
