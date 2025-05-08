@@ -11,6 +11,10 @@ const props = withDefaults(defineProps<Props>(), {
   redirectUrl: '/app',
 })
 
+definePageMeta({
+  layout: 'auth-default',
+})
+
 const signinForm = ref({
   email: '',
   password: '',
@@ -21,12 +25,9 @@ const signinFormSchema = toTypedSchema(z.object({
   password: z.string().min(8),
 }))
 
-const { errors, handleSubmit, defineField } = useForm({
+const { handleSubmit } = useForm({
   validationSchema: signinFormSchema,
 })
-
-const [email, emailAttrs] = defineField('email')
-const [password, passwordAttrs] = defineField('password')
 
 const onSubmit = handleSubmit(async (values) => {
   signinForm.value = values
@@ -68,21 +69,41 @@ async function signIn() {
 
 <template>
   <div>
-    Login
-    <form @submit="onSubmit">
-      <input v-model="email" type="email" v-bind="emailAttrs" class="outline">
-      <div>{{ errors.email }}</div>
-
-      <input v-model="password" type="password" v-bind="passwordAttrs" class="outline">
-      <div>{{ errors.password }}</div>
-
-      <button type="submit">
-        Submit
-      </button>
-    </form>
-    <button @click="signIn">
-      Use GitHub
-    </button>
+    <CardHeader>
+      <CardTitle class="font-poppins">
+        Sign In
+      </CardTitle>
+      <CardDescription>Sign in using your E-Mail and password</CardDescription>
+    </CardHeader>
+    <!--    TODO: Create better error handling, e.g. Invalid E-mail, etc. -->
+    <!--    TODO: Create better layout for the card components, either flex or grid -->
+    <CardContent>
+      <form @submit="onSubmit">
+        <FormField v-slot="{ componentField }" name="email">
+          <FormItem>
+            <FormLabel>E-Mail</FormLabel>
+            <FormControl>
+              <Input type="email" placeholder="example@example.com" v-bind="componentField" />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
+        <FormField v-slot="{ componentField }" name="password">
+          <FormItem>
+            <FormLabel>Password</FormLabel>
+            <FormControl>
+              <Input type="password" placeholder="password" v-bind="componentField" />
+            </FormControl>
+          </FormItem>
+        </FormField>
+        <Button type="submit" class="hover:cursor-pointer">
+          Sign In
+        </Button>
+      </form>
+      <Button class="hover:cursor-pointer" @click="signIn">
+        Use GitHub
+      </Button>
+    </Cardcontent>
   </div>
 </template>
 
