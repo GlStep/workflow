@@ -21,6 +21,7 @@ const userInformation = ref({
   passwordConfirm: '',
 })
 
+// TODO: Better zod schema, e.g. password confirmation, etc. with zod.refine()
 const signinFormSchema = toTypedSchema(z.object({
   firstName: z.string().min(1),
   lastName: z.string().min(1),
@@ -65,6 +66,8 @@ async function HandleRegisterUser() {
         Sign up using your E-Mail and a password
       </CardDescription>
     </CardHeader>
+    <!--    TODO: More consistent card layout, same as sign-in.vue -->
+    <!--    TODO: Create better form error messages -->
     <CardContent>
       <form @submit="onSubmit">
         <FormField v-slot="{ componentField }" name="firstName">

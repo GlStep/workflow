@@ -75,6 +75,8 @@ async function signIn() {
       </CardTitle>
       <CardDescription>Sign in using your E-Mail and password</CardDescription>
     </CardHeader>
+    <!--    TODO: Create better error handling, e.g. Invalid E-mail, etc. -->
+    <!--    TODO: Create better layout for the card components, either flex or grid -->
     <CardContent>
       <form @submit="onSubmit">
         <FormField v-slot="{ componentField }" name="email">
