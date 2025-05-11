@@ -10,6 +10,8 @@ async function signOut() {
     },
   })
 }
+
+const session = authClient.useSession()
 </script>
 
 <!-- List of stuff, which needs to be done for the application -->
@@ -21,9 +23,14 @@ async function signOut() {
 <template>
   <div>
     App
-    <button @click="signOut">
+    <button v-if="session.data" @click="signOut">
       Sign Out
     </button>
+    <div>
+      <pre>
+        {{ session.data }}
+      </pre>
+    </div>
   </div>
 </template>
 
