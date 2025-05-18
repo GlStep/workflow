@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { authClient } from '#imports'
 
+const user = useUserStore()
+await callOnce(user.fetch)
+
 async function signOut() {
   await authClient.signOut({
     fetchOptions: {
@@ -11,7 +14,7 @@ async function signOut() {
   })
 }
 
-const session = authClient.useSession()
+const { data: session } = await authClient.getSession()
 </script>
 
 <!-- List of stuff, which needs to be done for the application -->
@@ -23,12 +26,12 @@ const session = authClient.useSession()
 <template>
   <div>
     App
-    <button v-if="session.data" @click="signOut">
+    <button v-if="session" @click="signOut">
       Sign Out
     </button>
     <div>
       <pre>
-        {{ session.data }}
+        {{ session?.user }}
       </pre>
     </div>
   </div>
