@@ -10,9 +10,11 @@ const props = defineProps<{
 
 <template>
   <div>
-    <a :href="props.attribute.link">
-      <Button class="font-roboto hover:cursor-pointer" :variant="props.variant" size="lg">{{ props.attribute.text }}</Button>
-    </a>
+    <NuxtLink :to="props.attribute.link" prefetch-on="interaction">
+      <Button class="font-roboto hover:cursor-pointer" :variant="props.variant" size="lg">
+        {{ props.attribute.text }}
+      </Button>
+    </NuxtLink>
   </div>
 </template>
 

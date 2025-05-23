@@ -1,6 +1,10 @@
 <script lang="ts" setup>
 import { authClient } from '#imports'
 
+definePageMeta({
+  middleware: ['auth'],
+})
+
 const user = useUserStore()
 await callOnce(user.fetch)
 
@@ -30,9 +34,11 @@ const { data: session } = await authClient.getSession()
       Sign Out
     </button>
     <div>
-      <pre>
-        {{ session?.user }}
-      </pre>
+      <ClientOnly>
+        <pre>
+          {{ session?.user }}
+        </pre>
+      </ClientOnly>
     </div>
   </div>
 </template>
