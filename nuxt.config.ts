@@ -19,6 +19,7 @@ export default defineNuxtConfig({
     '@nuxt/scripts',
     '@vee-validate/nuxt',
     'shadcn-nuxt',
+    '@pinia/nuxt',
   ],
   vite: {
     plugins: [tailwindcss()],
