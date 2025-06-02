@@ -14,21 +14,22 @@ const items = [{
 
 <template>
   <Sidebar>
-    <SidebarHeader />
     <SidebarContent>
-      <SidebarGroup />
-      <SidebarGroupLabel>Application</SidebarGroupLabel>
-      <SidebarGroupContent>
-        <SidebarMenuItem v-for="item in items" :key="item.title">
-          <NuxtLink class="hover:cursor-pointer">
-            <SidebarMenuButton as-child>
-              {{ item.title }}
-            </SidebarMenuButton>
-          </NuxtLink>
-        </SidebarMenuItem>
-      </SidebarGroupContent>
-      <SidebarGroup />
+      <SidebarGroup>
+        <SidebarGroupLabel>Application</SidebarGroupLabel>
+        <SidebarGroupContent>
+          <SidebarMenu>
+            <SidebarMenuItem v-for="item in items" :key="item.title">
+              <SidebarMenuButton as-child>
+                <a :href="item.url">
+                  <component :is="item.icon" />
+                  <span>{{ item.title }}</span>
+                </a>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarGroupContent>
+      </SidebarGroup>
     </SidebarContent>
-    <SidebarFooter />
   </Sidebar>
 </template>
