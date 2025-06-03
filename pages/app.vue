@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { authClient } from '#imports'
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList } from '~/components/ui/breadcrumb'
 
 definePageMeta({
   middleware: ['auth'],
@@ -30,22 +31,32 @@ const { data: session } = await authClient.getSession()
   <div>
     <SidebarProvider>
       <AppSidebar />
-      <main>
-        <SidebarTrigger />
-        <RouterView />
-      </main>
+      <SidebarInset>
+        <header>
+          <div>
+            <SidebarTrigger />
+            <Separator />
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink>test</BreadcrumbLink>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
+          </div>
+        </header>
+        <ClientOnly>
+          <button v-if="session" @click="signOut">
+            Sign Out
+          </button>
+          <div>
+            <pre>
+              {{ session?.user }}
+            </pre>
+          </div>
+        </ClientOnly>
+      </SidebarInset>
     </SidebarProvider>
-    App
-    <button v-if="session" @click="signOut">
-      Sign Out
-    </button>
-    <div>
-      <ClientOnly>
-        <pre>
-          {{ session?.user }}
-        </pre>
-      </ClientOnly>
-    </div>
   </div>
 </template>
 
