@@ -32,14 +32,20 @@ const { data: session } = await authClient.getSession()
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        <header>
-          <div>
-            <SidebarTrigger />
-            <Separator />
+        <header class="flex h-16 shrink-0 items-center gap-2">
+          <div class="flex items-center gap-2 px-4">
+            <SidebarTrigger class="-ml-1" />
+            <Separator orientation="vertical" class="mr-2 h-4" />
             <Breadcrumb>
               <BreadcrumbList>
+                <BreadcrumbItem class="hidden md:block">
+                  <BreadcrumbLink href="#">
+                    Testing
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator class="hidden md:block" />
                 <BreadcrumbItem>
-                  <BreadcrumbLink>test</BreadcrumbLink>
+                  <BreadcrumbPage>Testing 2</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>

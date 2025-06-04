@@ -10,6 +10,14 @@ const items = [{
   url: '#',
   icon: Settings,
 }]
+
+const data = {
+  user: {
+    name: 'John Doe',
+    email: 'test@test.com',
+    avatar: 'https://i.pravatar.cc/150?img=1',
+  },
+}
 </script>
 
 <template>
@@ -31,5 +39,8 @@ const items = [{
         </SidebarGroupContent>
       </SidebarGroup>
     </SidebarContent>
+    <SidebarFooter>
+      <NavUser :user="data.user" />
+    </SidebarFooter>
   </Sidebar>
 </template>
