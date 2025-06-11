@@ -12,6 +12,18 @@ const data = {
     email: 'johndoe@example.com',
     avatar: 'https://i.pravatar.cc/150?img=1',
   },
+  teams: [
+    {
+      name: 'Design Engineering',
+      logo: Frame,
+      plan: 'Pro',
+    },
+    {
+      name: 'Sales & Marketing',
+      logo: PieChart,
+      plan: 'Enterprise',
+    },
+  ],
   navMain: [
     {
       title: 'Playground',
@@ -134,7 +146,7 @@ const data = {
 <template>
   <Sidebar v-bind="props">
     <SidebarHeader>
-      <SidebarMenu>
+      <!-- <SidebarMenu>
         <SidebarMenuItem>
           <SidebarMenuButton size="lg" as-child>
             <a href="#">
@@ -148,7 +160,8 @@ const data = {
             </a>
           </SidebarMenuButton>
         </SidebarMenuItem>
-      </SidebarMenu>
+      </SidebarMenu> -->
+      <NavTeam :teams="data.teams" />
     </SidebarHeader>
     <SidebarContent>
       <NavMain :items="data.navMain" />
