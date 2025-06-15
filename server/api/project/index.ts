@@ -1,5 +1,5 @@
-import { and, eq } from 'drizzle-orm'
-import { project, workspace, workspaceMembership } from '~/db/schema/workspace-schema'
+import { eq } from 'drizzle-orm'
+import { project, workspaceMembership } from '~/db/schema/workspace-schema'
 import { auth } from '~/server/utils/auth'
 import { db } from '~/server/utils/db'
 
@@ -18,7 +18,12 @@ export default defineEventHandler(async (event) => {
 
   // Need to use innerJoin to select projects that belong to the workspace
   const projects = await db
-    .select()
+    .select({
+      project,
+    })
     .from(project)
-    .where(and(eq(project.workspaceId, workspace.id), eq(workspaceMembership.userId, session.user.id)))
+    .innerJoin(workspaceMembership, eq(workspaceMembership.workspaceId, project.workspaceId))
+    .where(eq(workspaceMembership.userId, session.user.id))
+
+  return projects.map(({ project }) => project)
 })
