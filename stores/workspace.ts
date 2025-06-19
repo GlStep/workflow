@@ -1,12 +1,5 @@
+import type { Workspace } from '~/stores/types'
 import { defineStore } from 'pinia'
-
-export interface Workspace {
-  id: string
-  name: string
-  description?: string
-  createdAt: string
-  updatedAt: string
-}
 
 export const useWorkspaceStore = defineStore('workspace', {
   state: () => ({
