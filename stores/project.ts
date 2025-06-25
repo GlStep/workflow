@@ -1,8 +1,8 @@
-import type { Project, Task } from '~/stores/types'
+import type { Project } from '~/stores/types'
 import { defineStore } from 'pinia'
 import { useWorkspaceStore } from '~/stores/workspace'
 
-export const useMyProjectStore = defineStore('project', {
+export const useProjectStore = defineStore('project', {
   state: () => ({
     projects: [] as Project[],
     currentProject: null as Project | null,
@@ -78,6 +78,16 @@ export const useMyProjectStore = defineStore('project', {
 
     clearCurrentProject() {
       this.currentProject = null
+    },
+  },
+  getters: {
+    getProjectsByWorkspaceId: (state) => {
+      return (workspaceId: string) => {
+        return state.projects.filter(project => project.workspaceId === workspaceId)
+      }
+    },
+    getProjectById: (state) => {
+      return (id: string) => state.projects.find(project => project.id === id)
     },
   },
 })

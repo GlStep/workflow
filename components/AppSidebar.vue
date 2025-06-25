@@ -6,6 +6,9 @@ const props = withDefaults(defineProps<SidebarProps>(), {
   variant: 'inset',
 })
 
+// Get auth status
+const { useAuthSession }
+
 const data = {
   user: {
     name: 'John Doe',
