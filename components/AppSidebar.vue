@@ -1,13 +1,48 @@
 <script setup lang="ts">
 import type { SidebarProps } from '~/components/ui/sidebar'
 import { BookOpen, Bot, Frame, LifeBuoy, Map, PieChart, Send, Settings2, SquareTerminal } from 'lucide-vue-next'
+import { useProjectStore } from '~/stores/project'
+import { useUserStore } from '~/stores/user'
+import { useWorkspaceStore } from '~/stores/workspace'
 
 const props = withDefaults(defineProps<SidebarProps>(), {
   variant: 'inset',
 })
 
-// Get auth status
-const { useAuthSession }
+const userStore = useUserStore()
+const projectStore = useProjectStore()
+const workspaceStore = useWorkspaceStore()
+
+// Fetch user data and workspaces on mount
+onMounted(async () => {
+  await userStore.fetch()
+
+  if (userStore.name) {
+    await workspaceStore.fetchWorkspaces()
+  }
+})
+
+// Reactive user data, which will be updated, when the store changes
+const user = computed(() => {
+  return {
+    name: userStore.name || 'Guest',
+    email: userStore.email,
+    image: userStore.image,
+  }
+})
+
+// Reactive auth state
+const isAuthenticated = computed(() => !!userStore.name)
+console.log(isAuthenticated)
+
+// Transform workspaces into a format expected by NavTeam
+const teams = computed(() => {
+  return workspaceStore.workspaces.map(workspace => ({
+    name: workspace.name,
+    logo: Frame, // TODO: Create ability to upload custom logos, or choose from a set of icons
+    plan: 'Free', // TODO: Handle plans properly in the workspacesand in the database
+  }))
+})
 
 const data = {
   user: {
@@ -149,7 +184,9 @@ const data = {
 <template>
   <Sidebar v-bind="props">
     <SidebarHeader>
-      <NavTeam :teams="data.teams" />
+      <ClientOnly>
+        <NavTeam :teams="isAuthenticated ? teams : []" />
+      </ClientOnly>
     </SidebarHeader>
     <SidebarContent>
       <NavMain :items="data.navMain" />

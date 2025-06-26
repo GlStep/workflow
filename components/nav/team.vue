@@ -1,18 +1,24 @@
 <script lang="ts" setup>
 import type { Component } from 'vue'
-import { ChevronsUpDown, Plus } from 'lucide-vue-next'
+import { ChevronsUpDown, Frame, Plus } from 'lucide-vue-next'
 import { useSidebar } from '~/components/ui/sidebar'
 
 const props = defineProps<{
   teams: {
     name: string
-    logo: Component
+    logo?: Component
     plan: string
   }[]
 }>()
 
+const defaultTeam = {
+  name: 'No Workspace',
+  logo: Frame,
+  plan: 'Free',
+}
+
 const isMobile = useSidebar()
-const activeTeam = ref(props.teams[0])
+const activeTeam = ref(props.teams.length > 0 ? props.teams[0] : defaultTeam)
 </script>
 
 <template>
