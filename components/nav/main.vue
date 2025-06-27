@@ -18,7 +18,7 @@ defineProps<{
 
 <template>
   <SidebarGroup>
-    <SidebarGroupLabel>Replce this label</SidebarGroupLabel>
+    <SidebarGroupLabel>Tools</SidebarGroupLabel>
     <SidebarMenu>
       <Collapsible v-for="item in items" :key="item.title" as-child :default-open="item.isActive">
         <SidebarMenuItem>

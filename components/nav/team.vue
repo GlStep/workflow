@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { Component } from 'vue'
-import { ChevronsUpDown, Frame, Plus } from 'lucide-vue-next'
+import { Building, ChevronsUpDown, Frame, Plus, User } from 'lucide-vue-next'
 import { useSidebar } from '~/components/ui/sidebar'
 
 const props = defineProps<{
@@ -17,6 +17,19 @@ const defaultTeam = {
   plan: 'Free',
 }
 
+// Handle team logos and cases, where no such logo is provided
+function getLogo(team: { logo?: Component, name: string }): Component {
+  if (team.logo) {
+    return team.logo
+  }
+
+  if (team.name.toLowerCase().includes('personal')) {
+    return User
+  }
+
+  return Building
+}
+
 const isMobile = useSidebar()
 const activeTeam = ref(props.teams.length > 0 ? props.teams[0] : defaultTeam)
 </script>
@@ -31,7 +44,7 @@ const activeTeam = ref(props.teams.length > 0 ? props.teams[0] : defaultTeam)
             class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
           >
             <div class="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-              <component :is="activeTeam.logo" class="size-4" />
+              <component :is="getLogo(activeTeam)" class="size-4" />
             </div>
             <div class="grid flex-1 text-left text-sm leading-tight">
               <span class="truncate font-semibold">
@@ -58,7 +71,7 @@ const activeTeam = ref(props.teams.length > 0 ? props.teams[0] : defaultTeam)
             @click="activeTeam = team"
           >
             <div class="flex size-6 items-center justify-center rounded-sm border">
-              <component :is="team.logo" class="size-4 shrink-0" />
+              <component :is="getLogo(activeTeam)" class="size-4 shrink-0" />
             </div>
             {{ team.name }}
             <DropdownMenuShortcut>⌘{{ index + 1 }}</DropdownMenuShortcut>
@@ -69,7 +82,7 @@ const activeTeam = ref(props.teams.length > 0 ? props.teams[0] : defaultTeam)
               <Plus class="size-4" />
             </div>
             <div class="font-medium text-muted-foreground">
-              Add team
+              Add workspace
             </div>
           </DropdownMenuItem>
         </DropdownMenuContent>
