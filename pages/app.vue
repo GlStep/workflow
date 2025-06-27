@@ -59,14 +59,8 @@ const { data: session } = await authClient.getSession()
             <pre>
               {{ session?.user }}
             </pre>
-            <pre>
-              {{ useWorkspaceStore().workspaces }}
-            </pre>
           </div>
         </ClientOnly>
-        <pre>
-          {{ useWorkspaceStore().workspaces }}
-        </pre>
       </SidebarInset>
     </SidebarProvider>
   </div>

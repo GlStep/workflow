@@ -16,7 +16,7 @@ const isMobile = useSidebar()
 
 <template>
   <SidebarGroup class="group-data-[collapsible=icon]:hidden">
-    <SidebarGroupLabel>Projects</SidebarGroupLabel>
+    <SidebarGroupLabel>Projects in this workspace</SidebarGroupLabel>
     <SidebarMenu>
       <SidebarMenuItem v-for="item in projects" :key="item.name">
         <SidebarMenuButton as-child>
