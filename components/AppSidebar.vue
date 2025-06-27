@@ -33,7 +33,6 @@ const user = computed(() => {
 
 // Reactive auth state
 const isAuthenticated = computed(() => !!userStore.name)
-console.log(isAuthenticated)
 
 // Transform workspaces into a format expected by NavTeam
 const teams = computed(() => {
@@ -181,6 +180,8 @@ const data = {
 }
 </script>
 
+<!-- TODO: Get every piece of props to properly use the properties defined in the database schema -->
+<!-- TODO: Use a unified layout for all the processes inside the app -->
 <template>
   <Sidebar v-bind="props">
     <SidebarHeader>
