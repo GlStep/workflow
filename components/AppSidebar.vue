@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { SidebarProps } from '~/components/ui/sidebar'
-import { BookOpen, Bot, Frame, LifeBuoy, Map, PieChart, Send, Settings2, SquareTerminal } from 'lucide-vue-next'
+import { BookOpen, Bot, Frame, LifeBuoy, PieChart, Send, Settings2, SquareTerminal } from 'lucide-vue-next'
 import { useProjectStore } from '~/stores/project'
 import { useUserStore } from '~/stores/user'
 import { useWorkspaceStore } from '~/stores/workspace'
@@ -20,6 +20,15 @@ onMounted(async () => {
   if (userStore.name) {
     await workspaceStore.fetchWorkspaces()
   }
+
+  if (workspaceStore.currentWorkspace) {
+    await projectStore.fetchProjectsByWorkspace(workspaceStore.currentWorkspace.id)
+  }
+  else {
+    if (workspaceStore.workspaces[0]) {
+      await projectStore.fetchProjectsByWorkspace(workspaceStore.workspaces[0].id)
+    }
+  }
 })
 
 // Reactive user data, which will be updated, when the store changes
@@ -35,7 +44,7 @@ const user = computed(() => {
 const isAuthenticated = computed(() => !!userStore.name)
 
 // Transform workspaces into a format expected by NavTeam
-const teams = computed(() => {
+const workspaces = computed(() => {
   return workspaceStore.workspaces.map(workspace => ({
     name: workspace.name,
     logo: Frame, // TODO: Create ability to upload custom logos, or choose from a set of icons
@@ -43,24 +52,15 @@ const teams = computed(() => {
   }))
 })
 
+const projects = computed(() => {
+  return projectStore.projects.map(project => ({
+    name: project.name,
+    url: '#', // TODO: Set proper URL for the project (in the schema) and handle links
+    icon: PieChart, // TODO: Set custom icon
+  }))
+})
+
 const data = {
-  user: {
-    name: 'John Doe',
-    email: 'johndoe@example.com',
-    avatar: 'https://i.pravatar.cc/150?img=1',
-  },
-  teams: [
-    {
-      name: 'Design Engineering',
-      logo: Frame,
-      plan: 'Pro',
-    },
-    {
-      name: 'Sales & Marketing',
-      logo: PieChart,
-      plan: 'Enterprise',
-    },
-  ],
   navMain: [
     {
       title: 'Playground',
@@ -160,23 +160,6 @@ const data = {
       icon: Send,
     },
   ],
-  projects: [
-    {
-      name: 'Design Engineering',
-      url: '#',
-      icon: Frame,
-    },
-    {
-      name: 'Sales & Marketing',
-      url: '#',
-      icon: PieChart,
-    },
-    {
-      name: 'Travel',
-      url: '#',
-      icon: Map,
-    },
-  ],
 }
 </script>
 
@@ -185,17 +168,15 @@ const data = {
 <template>
   <Sidebar v-bind="props">
     <SidebarHeader>
-      <ClientOnly>
-        <NavTeam :teams="isAuthenticated ? teams : []" />
-      </ClientOnly>
+      <NavWorkspaces :workspaces="isAuthenticated ? workspaces : []" />
     </SidebarHeader>
     <SidebarContent>
       <NavMain :items="data.navMain" />
-      <NavProjects :projects="data.projects" />
+      <NavProjects :projects="projects" />
       <NavSecondary :items="data.navSecondary" class="mt-auto" />
     </SidebarContent>
     <SidebarFooter>
-      <NavUser :user="data.user" />
+      <NavUser :user="user" />
     </SidebarFooter>
   </Sidebar>
 </template>
