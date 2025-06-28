@@ -1,29 +1,66 @@
 <script setup lang="ts">
 import type { SidebarProps } from '~/components/ui/sidebar'
-import { BookOpen, Bot, Frame, LifeBuoy, Map, PieChart, Send, Settings2, SquareTerminal } from 'lucide-vue-next'
+import { BookOpen, Bot, Frame, LifeBuoy, PieChart, Send, Settings2, SquareTerminal } from 'lucide-vue-next'
+import { useProjectStore } from '~/stores/project'
+import { useUserStore } from '~/stores/user'
+import { useWorkspaceStore } from '~/stores/workspace'
 
 const props = withDefaults(defineProps<SidebarProps>(), {
   variant: 'inset',
 })
 
+const userStore = useUserStore()
+const projectStore = useProjectStore()
+const workspaceStore = useWorkspaceStore()
+
+// Fetch user data and workspaces on mount
+onMounted(async () => {
+  await userStore.fetch()
+
+  if (userStore.name) {
+    await workspaceStore.fetchWorkspaces()
+  }
+
+  if (workspaceStore.currentWorkspace) {
+    await projectStore.fetchProjectsByWorkspace(workspaceStore.currentWorkspace.id)
+  }
+  else {
+    if (workspaceStore.workspaces[0]) {
+      await projectStore.fetchProjectsByWorkspace(workspaceStore.workspaces[0].id)
+    }
+  }
+})
+
+// Reactive user data, which will be updated, when the store changes
+const user = computed(() => {
+  return {
+    name: userStore.name || 'Guest',
+    email: userStore.email,
+    image: userStore.image,
+  }
+})
+
+// Reactive auth state
+const isAuthenticated = computed(() => !!userStore.name)
+
+// Transform workspaces into a format expected by NavTeam
+const workspaces = computed(() => {
+  return workspaceStore.workspaces.map(workspace => ({
+    name: workspace.name,
+    logo: Frame, // TODO: Create ability to upload custom logos, or choose from a set of icons
+    plan: 'Free', // TODO: Handle plans properly in the workspacesand in the database
+  }))
+})
+
+const projects = computed(() => {
+  return projectStore.projects.map(project => ({
+    name: project.name,
+    url: '#', // TODO: Set proper URL for the project (in the schema) and handle links
+    icon: PieChart, // TODO: Set custom icon
+  }))
+})
+
 const data = {
-  user: {
-    name: 'John Doe',
-    email: 'johndoe@example.com',
-    avatar: 'https://i.pravatar.cc/150?img=1',
-  },
-  teams: [
-    {
-      name: 'Design Engineering',
-      logo: Frame,
-      plan: 'Pro',
-    },
-    {
-      name: 'Sales & Marketing',
-      logo: PieChart,
-      plan: 'Enterprise',
-    },
-  ],
   navMain: [
     {
       title: 'Playground',
@@ -123,53 +160,23 @@ const data = {
       icon: Send,
     },
   ],
-  projects: [
-    {
-      name: 'Design Engineering',
-      url: '#',
-      icon: Frame,
-    },
-    {
-      name: 'Sales & Marketing',
-      url: '#',
-      icon: PieChart,
-    },
-    {
-      name: 'Travel',
-      url: '#',
-      icon: Map,
-    },
-  ],
 }
 </script>
 
+<!-- TODO: Get every piece of props to properly use the properties defined in the database schema -->
+<!-- TODO: Use a unified layout for all the processes inside the app -->
 <template>
   <Sidebar v-bind="props">
     <SidebarHeader>
-      <!-- <SidebarMenu>
-        <SidebarMenuItem>
-          <SidebarMenuButton size="lg" as-child>
-            <a href="#">
-              <div class="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                <Command class="size-4" />
-              </div>
-              <div class="grid flex-1 text-left text-sm leading-tight">
-                <span class="truncate font-semibold">Acme Inc</span>
-                <span class="truncate text-xs">Enterprise</span>
-              </div>
-            </a>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
-      </SidebarMenu> -->
-      <NavTeam :teams="data.teams" />
+      <NavWorkspaces :workspaces="isAuthenticated ? workspaces : []" />
     </SidebarHeader>
     <SidebarContent>
       <NavMain :items="data.navMain" />
-      <NavProjects :projects="data.projects" />
+      <NavProjects :projects="projects" />
       <NavSecondary :items="data.navSecondary" class="mt-auto" />
     </SidebarContent>
     <SidebarFooter>
-      <NavUser :user="data.user" />
+      <NavUser :user="user" />
     </SidebarFooter>
   </Sidebar>
 </template>

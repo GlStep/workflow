@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { LucideIcon } from 'lucide-vue-next'
+import { ChevronRight } from 'lucide-vue-next'
 
 defineProps<{
   items: {
@@ -17,7 +18,7 @@ defineProps<{
 
 <template>
   <SidebarGroup>
-    <SidebarGroupLabel>Replce this label</SidebarGroupLabel>
+    <SidebarGroupLabel>Tools</SidebarGroupLabel>
     <SidebarMenu>
       <Collapsible v-for="item in items" :key="item.title" as-child :default-open="item.isActive">
         <SidebarMenuItem>

@@ -1,18 +1,37 @@
 <script lang="ts" setup>
 import type { Component } from 'vue'
-import { ChevronsUpDown, Plus } from 'lucide-vue-next'
+import { Building, ChevronsUpDown, Frame, Plus, User } from 'lucide-vue-next'
 import { useSidebar } from '~/components/ui/sidebar'
 
 const props = defineProps<{
-  teams: {
+  workspaces: {
     name: string
-    logo: Component
+    logo?: Component
     plan: string
   }[]
 }>()
 
+const defaultTeam = {
+  name: 'No Workspace',
+  logo: Frame,
+  plan: 'Free',
+}
+
+// Handle team logos and cases, where no such logo is provided
+function getLogo(workspace: { logo?: Component, name: string }): Component {
+  if (workspace.logo) {
+    return workspace.logo
+  }
+
+  if (workspace.name.toLowerCase().includes('personal')) {
+    return User
+  }
+
+  return Building
+}
+
 const isMobile = useSidebar()
-const activeTeam = ref(props.teams[0])
+const activeWorkspace = ref(props.workspaces.length > 0 ? props.workspaces[0] : defaultTeam)
 </script>
 
 <template>
@@ -25,13 +44,13 @@ const activeTeam = ref(props.teams[0])
             class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
           >
             <div class="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-              <component :is="activeTeam.logo" class="size-4" />
+              <component :is="getLogo(activeWorkspace)" class="size-4" />
             </div>
             <div class="grid flex-1 text-left text-sm leading-tight">
               <span class="truncate font-semibold">
-                {{ activeTeam.name }}
+                {{ activeWorkspace.name }}
               </span>
-              <span class="truncate text-xs">{{ activeTeam.plan }}</span>
+              <span class="truncate text-xs">{{ activeWorkspace.plan }}</span>
             </div>
             <ChevronsUpDown class="ml-auto" />
           </SidebarMenuButton>
@@ -46,15 +65,15 @@ const activeTeam = ref(props.teams[0])
             Teams
           </DropdownMenuLabel>
           <DropdownMenuItem
-            v-for="(team, index) in teams"
-            :key="team.name"
+            v-for="(workspace, index) in workspaces"
+            :key="workspace.name"
             class="gap-2 p-2"
-            @click="activeTeam = team"
+            @click="activeWorkspace = workspace"
           >
             <div class="flex size-6 items-center justify-center rounded-sm border">
-              <component :is="team.logo" class="size-4 shrink-0" />
+              <component :is="getLogo(activeWorkspace)" class="size-4 shrink-0" />
             </div>
-            {{ team.name }}
+            {{ workspace.name }}
             <DropdownMenuShortcut>⌘{{ index + 1 }}</DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
@@ -63,7 +82,7 @@ const activeTeam = ref(props.teams[0])
               <Plus class="size-4" />
             </div>
             <div class="font-medium text-muted-foreground">
-              Add team
+              Add workspace
             </div>
           </DropdownMenuItem>
         </DropdownMenuContent>
