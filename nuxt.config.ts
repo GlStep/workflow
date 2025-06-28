@@ -10,6 +10,11 @@ export default defineNuxtConfig({
       enabled: true,
     },
   },
+  routeRules: {
+    '/': { ssr: true },
+    '/app': { ssr: false },
+    '/app/**': { ssr: false },
+  },
   css: ['~/assets/css/tailwind.css'],
   modules: [
     '@nuxt/eslint',
