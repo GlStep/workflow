@@ -1,13 +1,10 @@
 <script lang="ts" setup>
 import { authClient } from '#imports'
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList } from '~/components/ui/breadcrumb'
 
 definePageMeta({
   middleware: ['auth'],
+  layout: 'app-default',
 })
-
-const user = useUserStore()
-await callOnce(user.fetch)
 
 async function signOut() {
   await authClient.signOut({
@@ -29,40 +26,9 @@ const { data: session } = await authClient.getSession()
 
 <template>
   <div>
-    <SidebarProvider>
-      <AppSidebar />
-      <SidebarInset>
-        <header class="flex h-16 shrink-0 items-center gap-2">
-          <div class="flex items-center gap-2 px-4">
-            <SidebarTrigger class="-ml-1" />
-            <Separator orientation="vertical" class="mr-2 h-4" />
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem class="hidden md:block">
-                  <BreadcrumbLink href="#">
-                    Testing
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator class="hidden md:block" />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Testing 2</BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-          </div>
-        </header>
-        <ClientOnly>
-          <button v-if="session" @click="signOut">
-            Sign Out
-          </button>
-          <div>
-            <pre>
-              {{ session?.user }}
-            </pre>
-          </div>
-        </ClientOnly>
-      </SidebarInset>
-    </SidebarProvider>
+    <button v-if="session" @click="signOut">
+      Sign Out
+    </button>
   </div>
 </template>
 
