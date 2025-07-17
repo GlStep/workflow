@@ -1,4 +1,4 @@
-import type { Workspace } from '~/stores/types'
+import type { Workspace } from '~~/stores/types'
 import { defineStore } from 'pinia'
 
 export const useWorkspaceStore = defineStore('workspace', {

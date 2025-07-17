@@ -1,7 +1,7 @@
+import { project, task, workspaceMembership } from '~~/db/schema/workspace-schema'
+import { auth } from '~~/server/utils/auth'
+import { db } from '~~/server/utils/db'
 import { and, eq } from 'drizzle-orm'
-import { project, task, workspaceMembership } from '~/db/schema/workspace-schema'
-import { auth } from '~/server/utils/auth'
-import { db } from '~/server/utils/db'
 
 export default defineEventHandler(async (event) => {
   const session = await auth.api.getSession({
@@ -44,7 +44,7 @@ export default defineEventHandler(async (event) => {
     .select()
     .from(workspaceMembership)
     .where(and(
-      eq(workspaceMembership.workspaceId, projectData[0].workspaceId),
+      eq(workspaceMembership.workspaceId, projectData[0]!.workspaceId),
       eq(workspaceMembership.userId, session.user.id),
     ))
     .limit(1)

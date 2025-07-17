@@ -1,7 +1,7 @@
+import { project, workspaceMembership } from '~~/db/schema/workspace-schema'
+import { auth } from '~~/server/utils/auth'
+import { db } from '~~/server/utils/db'
 import { eq } from 'drizzle-orm'
-import { project, workspaceMembership } from '~/db/schema/workspace-schema'
-import { auth } from '~/server/utils/auth'
-import { db } from '~/server/utils/db'
 
 export default defineEventHandler(async (event) => {
   const session = await auth.api.getSession({

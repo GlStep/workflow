@@ -1,6 +1,6 @@
-import type { Project } from '~/stores/types'
+import type { Project } from '~~/stores/types'
+import { useWorkspaceStore } from '~~/stores/workspace'
 import { defineStore } from 'pinia'
-import { useWorkspaceStore } from '~/stores/workspace'
 
 export const useProjectStore = defineStore('project', {
   state: () => ({
